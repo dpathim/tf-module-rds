@@ -40,10 +40,17 @@ resource "aws_rds_cluster" "main" {
   master_password                 = data.aws_ssm_parameter.master_password.value
   backup_retention_period         = var.backup_retention_period
   preferred_backup_window         = var.preferred_backup_window
-  db_cluster_parameter_group_name = aws_db_parameter_group.main.name
+  db_instance_parameter_group_name = aws_db_parameter_group.main.name
   vpc_security_group_ids          = [aws_security_group.main.id]
   skip_final_snapshot             = var.skip_final_snapshot
-  tags = merge(local.tags, { Name = "${local.name_prefix}-cluster" })
-
-
+  tags                            = merge(local.tags, { Name = "${local.name_prefix}-cluster" })
 }
+
+#resource "aws_rds_cluster_instance" "cluster_instances" {
+#  count              = 2
+#  identifier         = "aurora-cluster-demo-${count.index}"
+#  cluster_identifier = aws_rds_cluster.default.id
+#  instance_class     = "db.r4.large"
+#  engine             = aws_rds_cluster.default.engine
+#  engine_version     = aws_rds_cluster.default.engine_version
+#}
