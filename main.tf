@@ -31,7 +31,7 @@ resource "aws_rds_cluster_parameter_group" "main" {
 }
 
 resource "aws_rds_cluster" "main" {
-  cluster_identifier              = "${local.name_prefix}-"
+  cluster_identifier              = "${local.name_prefix}-cluster"
   engine                          = var.engine
   engine_version                  = var.engine_version
   db_subnet_group_name            = aws_db_subnet_group.main.name
